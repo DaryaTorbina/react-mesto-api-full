@@ -1,0 +1,10 @@
+.profile__content-name {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 800px) {
+  .profile__content-name {
+    margin-left: 22px;
+  }
+}

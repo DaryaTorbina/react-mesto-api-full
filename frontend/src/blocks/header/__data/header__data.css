@@ -1,0 +1,5 @@
+.header__data {
+  display: flex;
+  align-items: center;
+  grid-gap: 10px;
+}

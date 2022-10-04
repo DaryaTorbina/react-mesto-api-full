@@ -1,0 +1,19 @@
+/* .popup__description {
+  font-family: Inter, Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  color: #ffffff;
+  margin-top: 10px;
+  align-self: flex-start;
+  background: none;
+} */
+
+.popup__description {
+	padding: 0;
+	margin: 10px 0 0;
+	font-size: 12px;
+  line-height: 15px;
+  font-weight: normal;
+}
