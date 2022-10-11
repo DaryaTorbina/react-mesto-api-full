@@ -11,98 +11,79 @@ class Api {
       return Promise.reject(`${res.status} ${res.statusText}`);
     }
   }
-
   _getHeaders() {
     const jwt = localStorage.getItem('jwt');
     return {
-      'Authorization': `Bearer ${jwt}`,
+      Authorization : `Bearer ${jwt}`,
       ...this._headers,
     };
   }
 
-  getUserInfo() {
+  getUserInfo() {//
     const requestUrl = this._address + "/users/me";
     return fetch(requestUrl, {
-      headers: this._getHeaders,
+      headers:this._getHeaders(),
     }).then(this._checkResponse);
   }
 
-  getInitialCards() {
+  getInitialCards() {//
     const requestUrl = this._address + "/cards";
     return fetch(requestUrl, {
-      headers: this._getHeaders,
+      headers:this._getHeaders(),
     }).then(this._checkResponse);
   }
 
-  // getServerData() {
-  //   return Promise.all([this.getInitialCards(), this.getUserInfo()]);
-  // }
-
-  updateUserInfo(body) {
+  updateUserInfo(body) {//
     const requestUrl = this._address + "/users/me";
     return fetch(requestUrl, {
       method: "PATCH",
-      headers: this._getHeaders,
+      headers:this._getHeaders(),
       body: JSON.stringify(body),
     }).then(this._checkResponse);
   }
 
-  addNewMesto(body) {
+  addNewMesto(body) {//
     const requestUrl = this._address + "/cards";
     return fetch(requestUrl, {
       method: "POST",
-      headers: this._getHeaders,
+      headers: this._getHeaders(),
       body: JSON.stringify(body),
     }).then(this._checkResponse);
   }
 
-  removeMesto(cardID) {
+  removeMesto(cardID) {//
     const requestUrl = this._address + `/cards/${cardID}`;
     return fetch(requestUrl, {
       method: "DELETE",
-      headers: this._getHeaders,
+      headers: this._getHeaders(),
     }).then(this._checkResponse);
   }
+ 
 
-  // addLikeMesto(cardID) {
-  //   const requestUrl = this._address + `/cards/likes/${cardID}`;
-  //   return fetch(requestUrl, {
-  //     method: "PUT",
-  //     headers: this._headers,
-  //   }).then(this._checkResponse);
-  // }
-
-  // deleteLikeMesto(cardID) {
-  //   const requestUrl = this._address + `/cards/likes/${cardID}`;
-  //   return fetch(requestUrl, {
-  //     method: "DELETE",
-  //     headers: this._headers,
-  //   }).then(this._checkResponse);
-  // }
-  
-
-  changeLikeCard(id, isLiked) {
+  changeLikeCard(id, isLiked) {//
     return fetch (`${this._address}/cards/${id}/likes`, {
       method: isLiked ? 'PUT' : 'DELETE',
-      headers: this._getHeaders
+      headers: this._getHeaders(),
     })
     .then(this._checkResponse)
   }
 
-  updateProfileAvatar(body) {
+  updateProfileAvatar(body,token) {
     const requestUrl = this._address + `/users/me/avatar`;
     return fetch(requestUrl, {
       method: "PATCH",
-      headers: this._getHeaders,
+      headers: this._getHeaders(),
       body: JSON.stringify({avatar: body.avatar_link}),
     }).then(this._checkResponse);
   }
 }
 const mestoApiConfig = new Api({
-  address: "https://mesto.backend.torbinada.nomoredomains.icu",
+  // address: "https://mesto.nomoreparties.co/v1/cohort-41",
+  address: "https://mesto.front.torbinada.nomoredomains.icu",
   headers: {
-    "Content-Type": "application/json",
-  },
+    'Content-Type': 'application/json',
+   // authorization: "Bearer " + localStorage.getItem("jwt")
+},
 });
 
 export default mestoApiConfig;

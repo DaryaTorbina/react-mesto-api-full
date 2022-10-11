@@ -15,10 +15,10 @@ module.exports = (req, res, next) => {
 
   try {
     payload = jwt.verify(token, `${NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key'}`);
+    req.user = payload;
   } catch (err) {
     throw new AuthError('Необходима авторизация');
   }
 
-  req.user = payload;
   next();
 };

@@ -7,11 +7,12 @@ function PopupWithForm({
   title,
   children,
   buttonText,
+  onCloseClick
 }) {
   return (
     <div
       className={`popup popup_${name} ${isOpen && `popup__open` }`}
-      onClick={onClose}
+      onMouseDown={onCloseClick}
     >
       <div className="popup__form-container">
         <form className="popup__form" name={form} onSubmit={onSubmit}>
