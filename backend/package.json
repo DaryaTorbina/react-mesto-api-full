@@ -10,21 +10,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/novvember/express-mesto-gha.git"
+
   },
-  "keywords": [
-    "yandex-practicum",
-    "mesto",
-    "node-js",
-    "mongodb",
-    "mongoose"
-  ],
-  "author": "Dmitry Kalugin",
+
+
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/novvember/express-mesto-gha/issues"
-  },
-  "homepage": "https://github.com/novvember/express-mesto-gha#readme",
+
+  "homepage": "https://github.com/DaryaTorbina/express-mesto-gha#readme",
   "devDependencies": {
     "eslint": "^8.20.0",
     "eslint-config-airbnb-base": "^15.0.0",
