@@ -5,3 +5,8 @@
 
 https://mesto.front.torbinada.nomoredomains.icu/ фронт
 https://mesto.backend.torbinada.nomoredomains.icu/ бэк
+
+
+IP 62.84.117.107
+Frontend https://mesto.front.torbinada.nomoredomains.icu/
+Backend https://mesto.backend.torbinada.nomoredomains.icu/
