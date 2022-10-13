@@ -19,3 +19,4 @@ function ImagePopup({ card, onCloseClick, onClose }) {
 }
 
 export default ImagePopup;
+

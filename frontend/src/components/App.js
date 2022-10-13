@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";//
+import { useEffect, useState } from "react";//
 import mestoApiConfig from "../utils/Api";//
 import * as auth from "../utils/Auth";//
 import Header from "./Header";//
@@ -309,7 +309,7 @@ useEffect(() => {
               </>
             </Route>
             <Route path="*">
-              <Redirect to={isLoggedIn ? "/" : "/sign-in"} />
+              <Redirect to={isLoggedIn ? "/" : "/signin"} />
             </Route>
           </Switch>
 

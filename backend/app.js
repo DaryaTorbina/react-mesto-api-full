@@ -23,7 +23,7 @@ const app = express();
 // mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -54,7 +54,7 @@ app.use(handelError);
 // });
 // app.listen(PORT, () => {});
 
-mongoose.connect('mongodb://localhost:27017/mestodb1', () => {
+mongoose.connect('mongodb://localhost:27017/mestodb', () => {
   console.log('Connection successful');
 });
 
