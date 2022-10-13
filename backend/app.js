@@ -1,29 +1,43 @@
 require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
-// const usersRouter = require('./routes/users');
-// const cardsRouter = require('./routes/cards');
-const cors = require('./middlewares/cors');
-const { createUser, login } = require('./controllers/users');
-const {
-  valCreateUser,
-  valLogin,
-} = require('./middlewares/validations');
-const auth = require('./middlewares/auth');
-const handelError = require('./middlewares/handelError');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
-const routes = require('./routes');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const cors = require('cors');
 
-// Слушаем 3000 порт
+const { routes } = require('./routes');
+const { handleError } = require('./middlewares/handleError');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+
 const { PORT = 3000 } = process.env;
+const DATABASE_URL = 'mongodb://127.0.0.1:27017/mestodb';
+
 const app = express();
 
-// mongoose.connect('mongodb://localhost:27017/mestodb');
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 минут
+  max: 100, // 100 запросов с одного IP
+});
 
-app.use(bodyParser.json());
-app.use(cors);
+mongoose
+  .connect(DATABASE_URL)
+  .then(() => {
+    console.log(`Connected to database on ${DATABASE_URL}`);
+  })
+  .catch((err) => {
+    console.log('Error on database connection');
+    console.error(err);
+  });
+
+app.use(limiter);
+
+app.use(cors());
+
+app.use(requestLogger);
+
+app.use(helmet());
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -31,33 +45,14 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.use(requestLogger);
-
-app.post('/signup', valCreateUser, createUser);
-app.post('/signin', valLogin, login);
-
-
-app.use(auth);
-// app.use(usersRouter);
-// app.use(cardsRouter);
 app.use(routes);
 
 app.use(errorLogger);
 
 app.use(errors());
 
-
-app.use(handelError);
-
-// mongoose.connect('mongodb://localhost:27017/mestodb', {
-//  // useNewUrlParser: true,
-// });
-// app.listen(PORT, () => {});
-
-mongoose.connect('mongodb://localhost:27017/mestodb', () => {
-  console.log('Connection successful');
-});
+app.use(handleError);
 
 app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
+  console.log(`App listen port ${PORT}`);
 });

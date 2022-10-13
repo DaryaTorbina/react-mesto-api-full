@@ -1,20 +1,51 @@
-const router = require('express').Router();
+const express = require('express');
+const { celebrate, Joi } = require('celebrate');
+
+const { validateObjectId } = require('../utils/validateObjectId');
+const { LINK } = require('../utils/patterns');
 
 const {
-  getCurrentUser, getUser, getAllUsers, updateUser, updateUserAvatar,
-} = require('../controllers/users');
-const {
-  valUserId,
-  valUpdateUser,
-  valUpdateAvatar,
-} = require('../middlewares/validations');
+  getAllUsers,
+  getUser,
+  updateUser,
+  updateAvatar,
+  getCurrentUser,
+} = require('../controllers/users/users');
 
-// usersRouter.post('/', createUser); // создаёт пользователя
-router.get('/', getAllUsers); // возвращает пользователя по _id
-router.get('/me', getCurrentUser);
-router.get('/:userId', valUserId, getUser); // возвращает пользователя по _id, динамический роут :
-// router.get('/', getAllUsers); // возвращает пользователя по _id
-router.patch('/me', valUpdateUser, updateUser); // обновляет профиль
-router.patch('/me/avatar', valUpdateAvatar, updateUserAvatar); // обновляет аватар
+const users = express.Router();
 
-module.exports = router;
+users.get('/', getAllUsers);
+users.get('/me', getCurrentUser);
+
+users.get(
+  '/:userId',
+  celebrate({
+    params: Joi.object().keys({
+      userId: Joi.string().custom(validateObjectId),
+    }),
+  }),
+  getUser,
+);
+
+users.patch(
+  '/me',
+  celebrate({
+    body: Joi.object().keys({
+      name: Joi.string().min(2).max(30),
+      about: Joi.string().min(2).max(30),
+    }),
+  }),
+  updateUser,
+);
+
+users.patch(
+  '/me/avatar',
+  celebrate({
+    body: Joi.object().keys({
+      avatar: Joi.string().regex(LINK),
+    }),
+  }),
+  updateAvatar,
+);
+
+module.exports = { users };

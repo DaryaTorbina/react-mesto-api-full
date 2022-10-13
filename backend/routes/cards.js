@@ -1,21 +1,42 @@
-const router = require('express').Router();
+const express = require('express');
+const { celebrate, Joi } = require('celebrate');
+
+const { validateObjectId } = require('../utils/validateObjectId');
+const { LINK } = require('../utils/patterns');
 
 const {
-  getCards,
+  getAllCards,
   createCard,
   deleteCard,
-  likeCard,
-  dislikeCard,
-} = require('../controllers/carsd');
-const {
-  valCreateCard,
-  valCardId,
-} = require('../middlewares/validations');
+  putLike,
+  deleteLike,
+} = require('../controllers/cards/cards');
 
-router.get('/', getCards); // возвращает все карточки
-router.post('/', valCreateCard, createCard); // создаёт карточку
-router.delete('/:cardId', valCardId, deleteCard); // даляет карточку по идентификатору
-router.put('/:cardId/likes', valCardId, likeCard); // поставить лайк карточке
-router.delete('/:cardId/likes', valCardId, dislikeCard); // убрать лайк с карточки
+const paramsValidationConfig = {
+  params: Joi.object().keys({
+    cardId: Joi.string().custom(validateObjectId),
+  }),
+};
 
-module.exports = router;
+const cards = express.Router();
+
+cards.get('/', getAllCards);
+
+cards.post(
+  '/',
+  celebrate({
+    body: Joi.object().keys({
+      name: Joi.string().required().min(2).max(30),
+      link: Joi.string().required().regex(LINK),
+    }),
+  }),
+  createCard,
+);
+
+cards.delete('/:cardId', celebrate(paramsValidationConfig), deleteCard);
+
+cards.put('/:cardId/likes', celebrate(paramsValidationConfig), putLike);
+
+cards.delete('/:cardId/likes', celebrate(paramsValidationConfig), deleteLike);
+
+module.exports = { cards };
