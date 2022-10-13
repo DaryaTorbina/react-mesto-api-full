@@ -10,12 +10,20 @@
   },
   "repository": {
     "type": "git",
-
+    "url": "git+https://github.com/DaryaTorbina/express-mesto-gha.git"
   },
-
-
+  "keywords": [
+    "yandex-practicum",
+    "mesto",
+    "node-js",
+    "mongodb",
+    "mongoose"
+  ],
+  "author": "DaryaTorbina",
   "license": "ISC",
-
+  "bugs": {
+    "url": "https://github.com/DaryaTorbina/express-mesto-gha/issues"
+  },
   "homepage": "https://github.com/DaryaTorbina/express-mesto-gha#readme",
   "devDependencies": {
     "eslint": "^8.20.0",
