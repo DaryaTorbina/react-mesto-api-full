@@ -31,11 +31,12 @@ mongoose
     console.error(err);
   });
 
-app.use(limiter);
+// app.use(limiter);
 
 app.use(cors());
 
 app.use(requestLogger);
+app.use(limiter);
 
 app.use(helmet());
 

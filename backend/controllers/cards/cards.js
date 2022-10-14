@@ -1,5 +1,5 @@
 const { Card } = require('../../models/card');
-const { ValidationError, NotFoundError,ForbiddenError } = require('../../errors');
+const { ValidationError, NotFoundError, ForbiddenError } = require('../../errors');
 
 const putLike = async (req, res, next) => {
   try {
@@ -22,16 +22,16 @@ const putLike = async (req, res, next) => {
     }
     next(err);
   }
-}
+};
 
-const getAllCards = async (req, res, next) =>  {
+const getAllCards = async (req, res, next) => {
   try {
     const cards = await Card.find({}).populate('owner').populate('likes');
     res.send(cards.reverse());
   } catch (err) {
     next(err);
   }
-}
+};
 const deleteLike = async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -53,8 +53,7 @@ const deleteLike = async (req, res, next) => {
     }
     next(err);
   }
-}
-
+};
 
 const deleteCard = async (req, res, next) => {
   try {
@@ -79,7 +78,7 @@ const deleteCard = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
+};
 const createCard = async (req, res, next) => {
   try {
     const { name, link } = req.body;
@@ -96,7 +95,7 @@ const createCard = async (req, res, next) => {
 
     next(err);
   }
-}
+};
 
 module.exports = {
   createCard,

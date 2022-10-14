@@ -1,13 +1,15 @@
 const bcrypt = require('bcryptjs');
-const { User } = require('../../models/user');
-const { ConflictError, ValidationError,NotFoundError, UnauthorizedError  } = require('../../errors');
 const jwt = require('jsonwebtoken');
+const { User } = require('../../models/user');
+const {
+  ConflictError, ValidationError, NotFoundError, UnauthorizedError,
+} = require('../../errors');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const SALT_LENGTH = 10;
 
-const createUser = async(req, res, next)=> {
+const createUser = async (req, res, next) => {
   try {
     const {
       email, password, name, about, avatar,
@@ -37,9 +39,9 @@ const createUser = async(req, res, next)=> {
 
     next(err);
   }
-}
+};
 
-const getCurrentUser= async(req, res, next) => {
+const getCurrentUser = async (req, res, next) => {
   try {
     const userId = req.user._id;
     const user = await User.findById(userId);
@@ -52,16 +54,16 @@ const getCurrentUser= async(req, res, next) => {
   } catch (err) {
     next(err);
   }
-}
-const getAllUsers= async(req, res, next) =>{
+};
+const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find({});
     res.send(users);
   } catch (err) {
     next(err);
   }
-}
-const getUser= async(req, res, next)=> {
+};
+const getUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
     const user = await User.findById(userId);
@@ -78,9 +80,9 @@ const getUser= async(req, res, next)=> {
     }
     next(err);
   }
-}
+};
 
-const login =async(req, res, next)=> {
+const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -110,9 +112,9 @@ const login =async(req, res, next)=> {
   } catch (err) {
     next(err);
   }
-}
+};
 
-const updateAvatar= async(req, res, next)=> {
+const updateAvatar = async (req, res, next) => {
   try {
     const userId = req.user._id;
     const { avatar } = req.body;
@@ -130,10 +132,9 @@ const updateAvatar= async(req, res, next)=> {
   } catch (err) {
     next(err);
   }
-}
+};
 
-
-const updateUser= async(req, res, next)=> {
+const updateUser = async (req, res, next) => {
   try {
     const userId = req.user._id;
     const { name, about } = req.body;
@@ -151,9 +152,7 @@ const updateUser= async(req, res, next)=> {
   } catch (err) {
     next(err);
   }
-}
-
-
+};
 
 module.exports = {
   createUser,
